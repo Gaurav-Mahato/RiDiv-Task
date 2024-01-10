@@ -6,5 +6,5 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.invoice,name="invoice")
+        path('<int:pk>', views.invoice,name="invoice")
 ]

@@ -30,7 +30,7 @@ def invoice(request, pk = -1):
         except Exception as e:
             print('Form Invalid')
             return JsonResponse({"message": str(e)})
-    
+    print(f"pk = {pk}") 
     # Get Request
     if pk == -1:
         # All items
