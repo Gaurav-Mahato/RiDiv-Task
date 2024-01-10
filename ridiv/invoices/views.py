@@ -6,6 +6,7 @@ from .models import Invoice, InvoiceDetail
 from .forms import InvoiceForm
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.dateparse import parse_date
 
 # class InvoiceViewSet(viewsets.ModelViewSet):
 #     queryset = Invoice.objects.all()
@@ -17,13 +18,19 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def invoice(request, pk = -1):
-    if request.method == 'POST':
-        print('Post request received')
-        
-        json_data = json.loads(request.body.decode('utf-8'))
-        message = json_data.get('message')
-        print(f"{message}")
-        return JsonResponse({'message': 'Sucess'})
+    if request.method == 'POST': 
+        data = request.POST.dict()
+        print('......................')
+        print(data)
+        print('......................')
+        data = json.loads(request.body.decode('utf-8'))
+        data['date'] = parse_date(data['date'])
+        try:
+            invoice = Invoice.objects.create(**data)
+            return JsonResponse({"message": "Success","invoice_id": invoice.id})
+        except Exception as e:
+            print('Form Invalid')
+            return JsonResponse({"message": str(e)})
     print("Get Request received")
 
     
