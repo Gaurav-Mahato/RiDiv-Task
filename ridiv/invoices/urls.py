@@ -6,5 +6,6 @@ from . import views
 
 
 urlpatterns = [
-        path('<int:pk>', views.invoice,name="invoice")
+    path('',views.invoice,name="invoice_without_id"),
+    path('<int:pk>', views.invoice,name="invoice_with_id")
 ]
